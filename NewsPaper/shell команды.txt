@@ -1,0 +1,86 @@
+shell команды
+
+python manage.py shell
+from news.models import *
+
+
+Создать пользователей	
+User.objects.create_user('Коровьев')
+User.objects.create_user('Кот Бегемот')
+User.objects.create_user('Азазелло')
+
+
+Создать два объекта модели Author	
+u1 = User.objects.get(pk=2)
+u2 = User.objects.get(pk=3)
+u3 = User.objects.get(pk=4)
+a1 = Author.objects.create(author=u1)
+a2 = Author.objects.create(author=u2)
+
+
+Добавить 4 категории в модель Category	
+cat1 = Category.objects.create(category_name='Политика')
+cat2 = Category.objects.create(category_name='Наука')
+cat3 = Category.objects.create(category_name='Развлечение')
+cat4 = Category.objects.create(category_name='Путешествия')
+
+
+Добавить 2 статьи и 1 новость	
+p1 = Post.objects.create(post_type='NW',post_title='Cеанс чёрной магии',post_text='Бегемот поражает присутствующих, наливая и выпивая стакан воды из графина; во время сеанса по приказу Коровьева отрывает голову конферансье Жоржа Бенгальского, затем водворяет её на место; в конце сеанса, в разгар начавшегося скандала Бегемот приказывает дирижёру оркестра «урезать марш»',author=a1)
+
+p2 = Post.objects.create(post_type='AR',post_title='Дискусия о Боге',post_text='Воланд при встрече с Берлиозом утверждает, что человек «не может ручаться даже за свой собственный завтрашний день», и предсказывает, что председателю МАССОЛИТа отрежут голову.',author=a2)
+
+p3 = Post.objects.create(post_type='AR',post_title='Практическое метловождение',post_text='Воздушное путешествие Маргариты явственно связано с иной, достаточно хорошо описанной в литературе традицией полётов',author=a1)
+
+
+Присвоить им категории	
+p1.category.add(cat2-- p1.category.add(cat3)
+p2.category.add(cat1)
+p3.category.add(cat4)
+
+
+Создать как минимум 4 комментария	
+com1 = Comment.objects.create(comment_text='Коровьев-подлец и провокатор!Это все наговоры на честного кота',post=p1,user=u2)
+
+com2 = Comment.objects.create(comment_text='Милый Бегомот не скромничайте!',post=p1,user=u1)
+
+com3 = Comment.objects.create(comment_text='Мессир умеет убеждать...',post=p2,user=u3)
+
+com4 = Comment.objects.create(comment_text='Маргарита Николаевна выказала высокий уровень теоретической и практической подговки к полетам',post=p3,user=u1)
+ 
+
+Применяя функции like() и dislike() к статьям/новостям и комментариям	
+p1.like()
+p2.like()
+p3.like()
+
+com1.like()
+com2.like()
+com3.like()
+com4.like()
+
+
+Обновить рейтинги пользователей	
+a1.update_rating()
+a2.update_rating()
+
+
+Вывести username и рейтинг лучшего пользователя	
+Author.objects.all().order_by('-author_rating')[0]
+Author.objects.get(pk=1).author_id
+User.objects.get(pk=2).username
+
+
+Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье
+best_post = Post.objects.all().order_by('-post_rating')[0]
+best_post.post_title
+best_post.post_date_time
+best_post.post_rating
+best_post.preview()
+best_post.author_id
+Author.objects.get(pk=1).author_id
+User.objects.get(pk=2).username
+
+
+Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье
+best_post.comment_set.values('comment_date_time','user_id','comment_rating','comment_text')
