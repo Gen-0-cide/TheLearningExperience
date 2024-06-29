@@ -1,0 +1,41 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+    <h1> Все новости портала : {{ news|length }} </h1>
+    <h3>{{ time_now|date:'d M Y' }}</h3>
+    <em>{% current_time %}</em>
+    <hr>
+    {% if news %}
+        <table>
+            <tr>
+                <td> Заголовок </td>
+                <td> Категория </td>
+                <td> Дата публикации </td>
+                <td> Содержание </td>
+                <td> Автор </td>
+            </tr>
+            {% for one_news in news %}
+            <tr>
+                <td> {{ one_news.post_title }} </td>
+                <td>
+                    {% for category in one_news.category.all %}
+                    {{ category }}
+                    {% endfor %}
+                </td>
+                <td> {{ one_news.post_date_time|date:'d M Y' }} </td>
+                <td> {{ one_news.post_text|truncatewords:20|censor }} </td>
+                <td> {{ one_news.author }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2> Новостей на сегодня нет </h2>
+    {% endif %}
+{% endblock content %}

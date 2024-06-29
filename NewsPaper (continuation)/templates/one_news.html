@@ -1,0 +1,33 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+<h1> Текущая новость </h1>
+{{ one_news }}
+<hr>
+<table>
+    <tr>
+        <td> Заголовок</td>
+        <td> Категория</td>
+        <td> Дата публикации</td>
+        <td> Содержание</td>
+        <td> Автор</td>
+    </tr>
+    <tr>
+        <td> {{ one_news.post_title }}</td>
+        <td>
+            {% for category in one_news.category.all %}
+            {{ category }}
+            {% endfor %}
+        </td>
+        <td> {{ one_news.post_date_time|date:'d M Y' }}</td>
+        <td> {{ one_news.post_text|censor }}</td>
+        <td> {{ one_news.author }}</td>
+    </tr>
+</table>
+    {% endblock content %}
