@@ -41,7 +41,7 @@ class Coords(models.Model):
 class PerevalAdd(models.Model):
     """Класс модели для перевала."""
     NEW, PENDING, ACCEPTED, REJECTED = 'N', 'P', 'A', 'R'
-    STATUS_CHOICES = [(NEW, 'Новый'), (PENDING, 'Модерируется',), (ACCEPTED, 'Принят',), (REJECTED, 'Отклонен')]
+    STATUS_CHOICES = [(NEW, 'Новый'), (PENDING, 'Модерируется'), (ACCEPTED, 'Принят'), (REJECTED, 'Отклонен')]
 
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=NEW)
     beauty_title = models.CharField(max_length=254)
@@ -50,7 +50,7 @@ class PerevalAdd(models.Model):
     connect = models.TextField(blank=True)
     add_time = models.DateTimeField(auto_now_add=True, verbose_name="Время добавления")
 
-    user = models.ForeignKey(PerevalUser, on_delete=models.CASCADE, related_name='pereval')
+    user = models.ForeignKey(PerevalUser , on_delete=models.CASCADE, related_name='pereval')
     coords = models.OneToOneField(Coords, on_delete=models.CASCADE)
     # Категории сложностей
     level_spring = models.CharField(max_length=254, blank=True, verbose_name="Сложность весной")
@@ -59,7 +59,7 @@ class PerevalAdd(models.Model):
     level_winter = models.CharField(max_length=254, blank=True, verbose_name="Сложность зимой")
 
     def __str__(self):
-        return f"id: {self.pk}, title:{self.title}"
+        return f"id: {self.pk}, title: {self.title}"
 
 class Images(models.Model):
     """
@@ -77,7 +77,7 @@ class Images(models.Model):
     pereval = models.ForeignKey(PerevalAdd, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"id: {self.pk}, title:{self.title}"
+        return f"id: {self.pk}, title: {self.title}"
 
     class Meta:
         verbose_name_plural = ("Фотографии")
