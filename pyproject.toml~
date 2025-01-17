@@ -1,0 +1,20 @@
+[project]
+name = "pereval_drf"
+version = "0.0.1"
+description = "Задание"
+authors = [
+    {name = "not needed",email = "you@example.com"}
+]
+license = {text = "no"}
+readme = "README.md"
+requires-python = "y"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "cd \"c:"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
