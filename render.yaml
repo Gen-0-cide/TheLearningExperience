@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: Pereval_DRF
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn Pereval_DRF.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Pereval_DRF.settings
